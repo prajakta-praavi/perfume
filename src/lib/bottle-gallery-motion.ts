@@ -3,7 +3,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type Lenis from "lenis";
 
 /** Called synchronously within the owning route's matchMedia context. */
-export function createBottleGalleryMotion(scope: HTMLElement, lenis?: Lenis) {
+export function createBottleGalleryMotion(scope: HTMLElement, lenis?: Lenis, compact = false) {
   const gallery = scope.querySelector<HTMLElement>("[data-bottle-gallery]");
   if (!gallery) return () => {};
   const items = Array.from(gallery.querySelectorAll<HTMLElement>("[data-bottle-item]"));
@@ -21,6 +21,7 @@ export function createBottleGalleryMotion(scope: HTMLElement, lenis?: Lenis) {
     publish(index);
   };
   const width = () => gallery.clientWidth;
+  const spacing = compact ? 0.5 : 0.3;
   const publish = (index: number) => {
     if (active === index) return;
     active = index;
@@ -33,8 +34,9 @@ export function createBottleGalleryMotion(scope: HTMLElement, lenis?: Lenis) {
     scrollTrigger: {
       trigger: gallery,
       start: "top top",
-      end: "bottom bottom",
-      scrub: 0.65,
+      end: () =>
+        `+=${gallery.offsetHeight - (gallery.querySelector<HTMLElement>(".bottle-gallery-stage")?.offsetHeight ?? window.innerHeight)}`,
+      scrub: compact ? 0.35 : 0.65,
       invalidateOnRefresh: true,
     },
   });
@@ -44,13 +46,13 @@ export function createBottleGalleryMotion(scope: HTMLElement, lenis?: Lenis) {
     const initial = {
       xPercent: -50,
       yPercent: -50,
-      x: () => width() * index * 0.3,
+      x: () => width() * index * spacing,
       y: index * 14,
       scale: Math.max(0.3, 1 - index * 0.24),
-      rotationY: index === 0 ? 0 : -26,
+      rotationY: index === 0 ? 0 : compact ? -16 : -26,
       rotationZ: index * 3,
       opacity: Math.max(0, 1 - index * 0.3),
-      filter: `blur(${index > 1 ? 2 : 0}px)`,
+      filter: `blur(${!compact && index > 1 ? 2 : 0}px)`,
       zIndex: items.length - index,
       transformPerspective: 1200,
     };
@@ -67,13 +69,13 @@ export function createBottleGalleryMotion(scope: HTMLElement, lenis?: Lenis) {
     timeline.to(
       items[index]!,
       {
-        x: () => -width() * 0.65,
-        y: -45,
-        scale: 1.65,
-        rotationY: -28,
-        rotationZ: -12,
+        x: () => -width() * (compact ? 0.85 : 0.65),
+        y: compact ? -26 : -45,
+        scale: compact ? 1.35 : 1.65,
+        rotationY: compact ? -18 : -28,
+        rotationZ: compact ? -8 : -12,
         opacity: 0,
-        filter: "blur(5px)",
+        filter: compact ? "blur(0px)" : "blur(5px)",
         duration: 1.18,
         ease: "power2.inOut",
       },
@@ -84,13 +86,13 @@ export function createBottleGalleryMotion(scope: HTMLElement, lenis?: Lenis) {
       timeline.to(
         items[next]!,
         {
-          x: () => width() * distance * 0.3,
+          x: () => width() * distance * spacing,
           y: distance * 14,
           scale: Math.max(0.3, 1 - distance * 0.24),
-          rotationY: distance === 0 ? 0 : -26,
+          rotationY: distance === 0 ? 0 : compact ? -16 : -26,
           rotationZ: distance * 3,
           opacity: Math.max(0, 1 - distance * 0.3),
-          filter: `blur(${distance > 1 ? 2 : 0}px)`,
+          filter: `blur(${!compact && distance > 1 ? 2 : 0}px)`,
           duration: 1.18,
           ease: "power2.inOut",
         },

@@ -49,15 +49,16 @@ Chrome. It checks desktop pinning, resizing, mobile overflow, reduced motion,
 repeated SPA navigation, product size selection and browser errors. Screenshots are
 written to `artifacts/motion/`.
 
-The homepage now includes a multi-bottle scene at `/#bottle-showcase`. On desktop,
+The homepage now includes a multi-bottle scene at `/#bottle-showcase`. On desktop and mobile,
 native sticky positioning reserves four viewport heights for the scene; GSAP scrubs
 the bottles through scale, translation, perspective tilt and foreground blur. Product
 captions and links follow the featured bottle, and the four numbered buttons scroll
 to each composition. `src/lib/bottle-gallery-motion.ts` owns this choreography inside
-the existing route context. Mobile and reduced-motion users get a native horizontal
-product rail with an individual link for every fragrance. Hero floating and signature
+the existing route context. Mobile keeps native touch scrolling with lighter tilt,
+no animated blur, larger bottle spacing and touch-sized controls. Reduced-motion users
+get a static product rail with an individual link for every fragrance. Hero floating and signature
 tilt use separate wrappers from their entrance/scroll transforms.
 
 Run `npm run test:bottles` with the dev server running to verify the four product
 states, intermediate depth effects, reverse scroll, numbered controls, linked product
-navigation, cleanup, reduced motion and mobile horizontal scrolling.
+navigation, cleanup, reduced motion and the pinned mobile layouts.

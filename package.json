@@ -13,7 +13,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:motion": "node scripts/verify-motion.mjs",
-    "test:bottles": "node scripts/verify-bottles.mjs"
+    "test:bottles": "node scripts/verify-bottles.mjs",
+    "test:spray": "node scripts/verify-spray.mjs"
   },
   "overrides": {
     "rolldown": "1.2.1"

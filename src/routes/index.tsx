@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Hero } from "@/components/sections/Hero";
-import { CollectionsPreview } from "@/components/sections/CollectionsPreview";
 import { SignatureShowcase } from "@/components/sections/SignatureShowcase";
 import { IngredientStory } from "@/components/sections/IngredientStory";
 import { BrandStoryTeaser } from "@/components/sections/BrandStoryTeaser";
@@ -10,6 +9,7 @@ import { FragranceCard } from "@/components/FragranceCard";
 import { fragrances } from "@/data/fragrances";
 import { CinematicMotion } from "@/components/CinematicMotion";
 import { BottleGallery } from "@/components/sections/BottleGallery";
+import { PerfumeSprayTransition } from "@/components/sections/PerfumeSprayTransition";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -37,7 +37,7 @@ function Home() {
   return (
     <CinematicMotion>
       <Hero />
-      <CollectionsPreview />
+      <PerfumeSprayTransition />
       <FeaturedFragrances />
       <SignatureShowcase />
       <IngredientStory />
@@ -49,7 +49,7 @@ function Home() {
 
 function FeaturedFragrances() {
   return (
-    <section data-scroll-section="featured" className="py-24 md:py-32">
+    <section id="chapters" data-scroll-section="featured" className="py-24 md:py-32">
       <div className="container-lux">
         <SectionHeading
           eyebrow="The Collection"

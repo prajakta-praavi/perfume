@@ -78,7 +78,16 @@ try {
     await page.locator("html").evaluate((node) => node.classList.contains("lenis")),
     "Desktop Lenis active",
   );
-  assert.equal(await page.locator(".pin-spacer").count(), 1, "One signature pin");
+  assert.equal(
+    await page.locator(".cinematic-showcase .pin-spacer").count(),
+    1,
+    "One signature pin",
+  );
+  assert.equal(
+    await page.locator("[data-perfume-spray] .pin-spacer").count(),
+    1,
+    "One spray scene pin",
+  );
   await checkWidth(page);
   await page.screenshot({ path: "artifacts/motion/desktop-hero.png" });
 
@@ -109,19 +118,23 @@ try {
   );
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.waitForTimeout(300);
-  assert.equal(await page.locator(".pin-spacer").count(), 1);
+  assert.equal(await page.locator(".cinematic-showcase .pin-spacer").count(), 1);
 
   await page.setViewportSize({ width: 768, height: 900 });
   await page.waitForTimeout(300);
   assert.equal(
-    await page.locator(".pin-spacer, html.lenis").count(),
+    await page.locator(".cinematic-showcase .pin-spacer, html.lenis").count(),
     0,
     "Resize removes desktop motion",
   );
   await checkWidth(page);
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.waitForTimeout(300);
-  assert.equal(await page.locator(".pin-spacer").count(), 1, "Resize restores exactly one pin");
+  assert.equal(
+    await page.locator(".cinematic-showcase .pin-spacer").count(),
+    1,
+    "Resize restores exactly one signature pin",
+  );
 
   // Repeat SPA navigation to detect accumulating pins and stale animations.
   for (let i = 0; i < 2; i++) {
@@ -131,7 +144,7 @@ try {
     await page.locator('a[href="/"]').last().click();
     await page.waitForURL(baseURL + "/");
     await page.waitForTimeout(300);
-    assert.equal(await page.locator(".pin-spacer").count(), 1);
+    assert.equal(await page.locator(".cinematic-showcase .pin-spacer").count(), 1);
   }
   await page.locator('[data-scroll-section="hero"] a[href="/collections"]').click();
   await page.waitForURL("**/collections");
@@ -154,7 +167,7 @@ try {
 
   const laptop = await open({ viewport: { width: 1366, height: 768 } });
   assert.equal(
-    await laptop.page.locator(".pin-spacer").count(),
+    await laptop.page.locator(".cinematic-showcase .pin-spacer").count(),
     1,
     "Normal laptop receives the showcase pin",
   );
@@ -187,7 +200,8 @@ try {
     isMobile: true,
     hasTouch: true,
   });
-  assert.equal(await mobile.page.locator(".pin-spacer").count(), 0);
+  assert.equal(await mobile.page.locator(".cinematic-showcase .pin-spacer").count(), 0);
+  assert.equal(await mobile.page.locator("[data-perfume-spray] .pin-spacer").count(), 1);
   assert.equal(await mobile.page.locator("html.lenis").count(), 0);
   await checkWidth(mobile.page);
   await mobile.page.screenshot({ path: "artifacts/motion/mobile-hero.png" });

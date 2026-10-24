@@ -2,6 +2,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import { createBottleGalleryMotion } from "@/lib/bottle-gallery-motion";
+import { createPerfumeSprayMotion } from "@/lib/perfume-spray-motion";
 
 /** All transforms belong to this route's matchMedia context, never to global killAll(). */
 export function createCinematicMotion(scope: HTMLElement) {
@@ -19,6 +20,7 @@ export function createCinematicMotion(scope: HTMLElement) {
   media.add(
     {
       motion: "(prefers-reduced-motion: no-preference)",
+      mobile: "(max-width: 767px)",
       desktop: "(min-width: 1024px) and (hover: hover) and (pointer: fine)",
       pin: "(min-width: 1024px) and (min-height: 700px) and (hover: hover) and (pointer: fine)",
     },
@@ -37,7 +39,8 @@ export function createCinematicMotion(scope: HTMLElement) {
         lenis.on("scroll", ScrollTrigger.update);
         gsap.ticker.add(tick);
       }
-      const cleanupGallery = desktop ? createBottleGalleryMotion(scope, lenis) : () => {};
+      const cleanupGallery = createBottleGalleryMotion(scope, lenis, !desktop);
+      const cleanupSpray = createPerfumeSprayMotion(scope, Boolean(context.conditions["mobile"]));
 
       // Reserve the pin's travel in CSS before first paint; no runtime spacer growth.
       const showcase = scope.querySelector<HTMLElement>(".cinematic-showcase");
@@ -167,7 +170,7 @@ export function createCinematicMotion(scope: HTMLElement) {
         (element: HTMLElement) => {
           if (
             element.closest(
-              '[data-scroll-section="hero"], [data-scroll-section="fragrance-card"], [data-scroll-section="ingredient"], [data-bottle-gallery]',
+              '[data-scroll-section="hero"], [data-scroll-section="fragrance-card"], [data-scroll-section="ingredient"], [data-bottle-gallery], [data-perfume-spray]',
             )
           )
             return;
@@ -237,6 +240,7 @@ export function createCinematicMotion(scope: HTMLElement) {
       refresh();
       return () => {
         cleanupGallery();
+        cleanupSpray();
         scope.removeEventListener("focusin", onFocus);
         gsap.ticker.remove(tick);
         lenis?.off("scroll", ScrollTrigger.update);

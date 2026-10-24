@@ -2,7 +2,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { fragrances } from "@/data/fragrances";
 
-/** Static product rail first; the route's GSAP context enhances desktop scrolling. */
+/** The route enhances every viewport; reduced motion keeps the static product rail. */
 export function BottleGallery() {
   const root = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);

@@ -1,0 +1,245 @@
+.perfume-spray {
+  position: relative;
+  background: var(--forest-deep);
+  --spray-jet-width: min(68vw, 920px);
+}
+
+.spray-scene {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  min-height: 82svh;
+  display: grid;
+  place-items: center;
+}
+
+.spray-environment,
+.spray-background,
+.spray-shade,
+.spray-flower-field,
+.spray-cover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.spray-background {
+  object-fit: cover;
+}
+
+.spray-dark-background {
+  opacity: 0;
+}
+
+.spray-shade {
+  background: linear-gradient(
+    to bottom,
+    oklch(0.11 0.02 168 / 40%),
+    oklch(0.11 0.02 168 / 22%) 40%,
+    oklch(0.11 0.02 168 / 75%)
+  );
+}
+
+.spray-product-anchor,
+.spray-intro,
+.spray-cover,
+.spray-flower-field,
+.spray-progress {
+  display: none;
+}
+
+.spray-reveal {
+  position: relative;
+  z-index: 8;
+  padding-block: 6rem;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.spray-reveal h2 {
+  max-width: 12ch;
+  margin-inline: auto;
+}
+
+.spray-skip {
+  position: absolute;
+  right: clamp(1.25rem, 4vw, 4rem);
+  bottom: 2rem;
+  z-index: 12;
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.spray-skip:focus-visible {
+  outline: 1px solid var(--gold);
+  outline-offset: 8px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .perfume-spray {
+    /* Equal to one screen plus the master timeline's reserved pin travel. */
+    height: 600svh;
+  }
+
+  [data-spray-enhanced] .spray-scene {
+    height: 100svh;
+    min-height: 0;
+  }
+
+  [data-spray-enhanced] .spray-product-anchor {
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    height: min(70svh, 650px);
+    aspect-ratio: 2 / 3;
+    transform: translate(-50%, -50%);
+    z-index: 4;
+    filter: drop-shadow(0 22px 24px oklch(0.06 0.02 165 / 30%));
+  }
+
+  .spray-bottle {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .spray-product-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .spray-bottle-body {
+    clip-path: inset(15.6% 0 0);
+  }
+
+  .spray-nozzle {
+    clip-path: inset(0 0 84.4%);
+  }
+
+  .spray-cap {
+    clip-path: inset(0 0 77.8%);
+  }
+
+  .spray-emitter-anchor {
+    /* Matches the actual right-facing orifice in the 1024 × 1536 source. */
+    position: absolute;
+    left: 54.7%;
+    top: 11.3%;
+    width: 0;
+    height: 0;
+  }
+
+  .spray-jet {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: var(--spray-jet-width);
+    height: calc(var(--spray-jet-width) / 1.5);
+    /* The fixed source in every atlas cell is at 12% × 50%. */
+    transform: translate(-12%, -50%);
+    pointer-events: none;
+  }
+
+  [data-spray-enhanced] .spray-intro {
+    display: block;
+    position: absolute;
+    inset: 9% 1rem auto;
+    z-index: 9;
+    text-align: center;
+  }
+
+  [data-spray-enhanced] .spray-cover {
+    display: block;
+    z-index: 6;
+  }
+
+  [data-spray-enhanced] .spray-flower-field {
+    display: block;
+    z-index: 7;
+  }
+
+  .spray-botanical {
+    position: absolute;
+    display: block;
+    background-size: 200% 200%;
+    background-repeat: no-repeat;
+    rotate: var(--botanical-rotation);
+    translate: -50% -50%;
+    filter: drop-shadow(0 8px 12px oklch(0.11 0.02 168 / 18%));
+    pointer-events: none;
+  }
+
+  .spray-botanical-0 {
+    background-position: 0 0;
+  }
+  .spray-botanical-1 {
+    background-position: 100% 0;
+  }
+  .spray-botanical-2 {
+    background-position: 0 100%;
+  }
+  .spray-botanical-3 {
+    background-position: 100% 100%;
+  }
+
+  [data-spray-enhanced] .spray-progress {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    position: absolute;
+    left: clamp(1.25rem, 4vw, 4rem);
+    bottom: 2rem;
+    z-index: 12;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+  }
+
+  .spray-progress-track {
+    width: 80px;
+    height: 1px;
+    background: oklch(0.78 0.11 85 / 25%);
+  }
+
+  .spray-progress-fill {
+    width: 100%;
+    height: 100%;
+    background: var(--gold);
+    transform-origin: left;
+  }
+
+  @media (max-width: 767px) {
+    .perfume-spray {
+      height: 440svh;
+      --spray-jet-width: 440px;
+    }
+
+    [data-spray-enhanced] .spray-product-anchor {
+      height: min(62svh, 540px);
+    }
+
+    .spray-botanical:nth-child(n + 7) {
+      display: none;
+    }
+
+    .spray-botanical {
+      max-width: 140px;
+    }
+
+    .spray-progress-track {
+      width: 35px;
+    }
+
+    .spray-skip {
+      max-width: 50%;
+      text-align: right;
+    }
+  }
+}

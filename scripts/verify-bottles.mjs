@@ -121,25 +121,83 @@ try {
   const phone = await mobile.newPage();
   phone.on("pageerror", (error) => errors.push(error.message));
   await phone.goto(url, { waitUntil: "networkidle" });
-  await phone.locator("[data-bottle-gallery]").scrollIntoViewIfNeeded();
-  assert.equal(await phone.locator("[data-gallery-enhanced]").count(), 0);
-  await phone
-    .locator(".bottle-gallery-items")
-    .evaluate((node) => node.scrollTo({ left: node.clientWidth }));
-  await phone.waitForTimeout(300);
-  assert(
-    await phone.locator(".bottle-gallery-items").evaluate((node) => node.scrollLeft > 0),
-    "Mobile rail supports native horizontal scrolling",
+  await phone.waitForFunction(() => document.querySelector("[data-gallery-enhanced]"));
+  const mobileGallery = phone.locator("[data-bottle-gallery]");
+  const mobileAt = async (progress) => {
+    const metrics = await mobileGallery.evaluate((node) => ({
+      top: node.getBoundingClientRect().top + scrollY,
+      travel: node.offsetHeight - node.querySelector(".bottle-gallery-stage").offsetHeight,
+    }));
+    await phone.evaluate((y) => scrollTo(0, y), metrics.top + metrics.travel * progress);
+    await phone.waitForTimeout(850);
+  };
+  for (const [index, progress, name] of [
+    [0, 0, "Vetiver Noir"],
+    [1, 0.34, "Cedar & Smoke"],
+    [2, 0.65, "Sage Reverie"],
+    [3, 0.96, "Jasmine & Fern"],
+  ]) {
+    await mobileAt(progress);
+    assert.equal(await mobileGallery.getAttribute("data-active-bottle"), String(index));
+    assert.equal(await phone.locator(".bottle-gallery-caption h3").textContent(), name);
+    assert(
+      await phone
+        .locator(".bottle-gallery-stage")
+        .evaluate((node) => Math.abs(node.getBoundingClientRect().top) < 2),
+      "Mobile stage stays pinned",
+    );
+  }
+  assert.equal(
+    await phone.locator("html.lenis").count(),
+    0,
+    "Mobile retains native touch scrolling",
   );
+  const checkControls = async () => {
+    assert(
+      await phone.locator(".bottle-gallery-controls").evaluate((node) => {
+        const controls = node.getBoundingClientRect();
+        const caption = document.querySelector(".bottle-gallery-caption").getBoundingClientRect();
+        return (
+          controls.bottom <= innerHeight + 1 &&
+          controls.left >= 0 &&
+          controls.right <= innerWidth &&
+          caption.bottom <= controls.top
+        );
+      }),
+      "Caption and all controls fit without overlapping",
+    );
+  };
+  await checkControls();
   assert(
     await phone.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1),
     "No mobile page overflow",
   );
   await phone.screenshot({ path: "artifacts/motion/bottles-mobile.png" });
+  await phone.getByRole("button", { name: "Show Vetiver Noir" }).tap();
+  await phone.waitForTimeout(1400);
+  assert.equal(
+    await mobileGallery.getAttribute("data-active-bottle"),
+    "0",
+    "Mobile controls navigate bottles",
+  );
+  await phone.setViewportSize({ width: 320, height: 568 });
+  await phone.waitForTimeout(500);
+  await mobileAt(0.96);
+  await checkControls();
+  await phone.screenshot({ path: "artifacts/motion/bottles-mobile-small.png" });
+  await phone.setViewportSize({ width: 844, height: 390 });
+  await phone.waitForTimeout(500);
+  await mobileAt(0.65);
+  await checkControls();
+  await phone.screenshot({ path: "artifacts/motion/bottles-mobile-landscape.png" });
+  await phone.emulateMedia({ reducedMotion: "reduce" });
+  await phone.waitForTimeout(300);
+  assert.equal(await phone.locator("[data-gallery-enhanced]").count(), 0);
+  assert.equal(await phone.locator(".bottle-gallery-static-caption a:visible").count(), 4);
   await mobile.close();
   assert.deepEqual(errors, []);
   console.log(
-    "PASS: four bottle depth transitions, growing foreground, blur, pinning, reverse scroll, keyboard-accessible controls, product links, route cleanup, reduced motion and mobile swipe rail.",
+    "PASS: desktop and mobile pinned bottle sequences, four synchronized products, mobile controls, small/landscape layouts, reverse scroll, product links, cleanup and reduced motion.",
   );
 } finally {
   await browser.close();

@@ -2,6 +2,7 @@
 @source "../src";
 @import "tw-animate-css";
 @import "lenis/dist/lenis.css";
+@import "./styles/perfume-spray.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -176,7 +177,7 @@
   }
 }
 
-@media (min-width: 1024px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+@media (prefers-reduced-motion: no-preference) {
   .bottle-gallery {
     /* Native sticky pinning: travel is reserved without inserting a spacer. */
     height: 400svh;
@@ -291,7 +292,85 @@
     outline: 1px solid var(--gold);
     outline-offset: 3px;
   }
+}
 
+@media (max-width: 767px) and (prefers-reduced-motion: no-preference) {
+  .bottle-gallery {
+    height: 360svh;
+  }
+
+  [data-gallery-enhanced] .bottle-gallery-heading {
+    top: 4%;
+    font-size: 0.55rem;
+    letter-spacing: 0.3em;
+  }
+
+  [data-gallery-enhanced] .bottle-gallery-items {
+    inset: 12% 0 27%;
+  }
+
+  [data-gallery-enhanced] .bottle-gallery-item {
+    width: clamp(190px, 78vw, 340px);
+  }
+
+  [data-gallery-enhanced] .bottle-gallery-caption {
+    bottom: 12.5%;
+  }
+
+  .bottle-gallery-caption h3 {
+    font-size: clamp(1.65rem, 7vw, 2.25rem);
+  }
+
+  .bottle-gallery-caption p {
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+  }
+
+  .bottle-gallery-caption a {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    margin-top: 0.25rem;
+    font-size: 0.65rem;
+  }
+
+  [data-gallery-enhanced] .bottle-gallery-controls {
+    bottom: 3%;
+    gap: 0.25rem;
+  }
+}
+
+@media (max-height: 600px) and (orientation: landscape) and (prefers-reduced-motion: no-preference) {
+  [data-gallery-enhanced] .bottle-gallery-items {
+    inset: 10% 0 42%;
+  }
+
+  [data-gallery-enhanced] .bottle-gallery-caption {
+    bottom: 16%;
+  }
+
+  .bottle-gallery-caption h3 {
+    margin-top: 0.25rem;
+    font-size: 1.5rem;
+  }
+
+  .bottle-gallery-caption p {
+    font-size: 0.5rem;
+  }
+
+  .bottle-gallery-caption a {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    margin-top: 0;
+  }
+
+  [data-gallery-enhanced] .bottle-gallery-controls {
+    bottom: 1%;
+  }
+}
+
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
   [data-scroll-section="fragrance-card"]:hover img {
     transform: translateY(-6px) rotate(-3deg);
   }

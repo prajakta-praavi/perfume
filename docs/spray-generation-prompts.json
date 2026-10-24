@@ -1,0 +1,26 @@
+{
+  "generator": "Built-in image_gen",
+  "assets": [
+    {
+      "name": "vetiver-atomizer",
+      "prompt": "Edit target: the supplied Sylva Vetiver Noir transparent perfume bottle. Use case: precise-object-edit. Preserve the ENTIRE bottle body, exact silhouette, emerald glass, gold liquid, roots, label typography 'SYLVA' and 'VETIVER NOIR', all body coordinates, camera, proportions, lighting, canvas size 1024x1536 and existing genuine transparent background. Change ONLY the removable large gold cap: remove it and reveal a realistic small brushed gold perfume atomizer on the existing neck. The exposed atomizer has a small cylindrical gold actuator button with a small black spray hole visible on its right-facing side; a thin stem and gold collar below it. No hand, no spray, no loose cap, no new props, no backdrop. Keep the full bottle at its original position and size, with empty transparent space where the removed cap was. The actuator must be easy to isolate as an independent top layer for a downward press animation. All body and branding details must stay unchanged. Clean true alpha edges, no baked checkerboard.",
+      "transparentBackground": true,
+      "editTarget": "src/assets/dummy/vetiver-noir.png"
+    },
+    {
+      "name": "mist-sequence",
+      "prompt": "Use case: ads-marketing. Production VFX asset: a contact sheet/sprite atlas of sixteen consecutive frames of a single real fine perfume atomizer mist pulse photographed with high-speed macro backlighting. Transparent alpha background. Exact landscape 1536x1024 canvas, strict 4 columns by 4 rows, sixteen equal 384x256 cells, chronological left to right then top to bottom, NO borders, NO labels, NO text. Every cell is an independent frame; no mist can cross a cell boundary. In every cell the fixed spray source is at x=12% of the cell width and y=50% of cell height, mist directed to the RIGHT. Temporal evolution: first 4 frames a small narrow jet of tiny alcohol droplets emerges; next 4 a wider delicate conical plume expands; next 4 a broad wispy atomized droplet cloud; final 4 very fine dispersing translucent haze. Photorealistic microdroplets and delicate turbulent air filaments, pearlescent neutral-white backlit spray, organic but optically subtle and fine. This is a liquid atomizer spray, NOT smoke, NOT steam, NOT cotton clouds, NOT cartoon particles. Strong readable fine-droplet texture against alpha while remaining naturally translucent. No bottle, no nozzle, no objects, no floor, no solid background, no gray or checkerboard backdrop. Keep every cell's plume comfortably inside its own cell.",
+      "transparentBackground": true
+    },
+    {
+      "name": "botanical-atlas",
+      "prompt": "Use case: product-mockup. A production sprite atlas of four separate photorealistic botanical cutouts on genuine transparent alpha background. Square 1024x1024 canvas divided into an invisible strict 2x2 grid, each 512x512 cell independent, no borders or text. Upper left cell: one delicate small white jasmine blossom with five softly curled petals and tiny pale yellow center, three-quarter view. Upper right cell: one thin softly curled pale blush rose petal, subtle cream-to-muted-pink translucence. Lower left cell: one small delicate dark-green fern frond. Lower right cell: one pair of slender fresh sage-green leaves. All isolated objects are fully visible, centered in their cell, only occupy 55-65% of cell, ample transparent padding, no contact or overlap between cells. Natural macro photography, soft premium botanical advertising light, believable organic imperfections and delicate veins. No vase, stems outside cell, scenery, packaging, labels, logos or baked checkerboard. These elements will float individually at different depths over a luxury perfume website.",
+      "transparentBackground": true
+    },
+    {
+      "name": "botanical-forest",
+      "prompt": "Use case: photorealistic-natural. Wide 16:9 cinematic botanical forest background plate for existing Sylva luxury herbal perfume website. A lush intimate fern garden at the edge of an ancient forest, soft luminous early-morning light through trees, dewy sage and fern leaves in foreground, a few tiny white jasmine flowers growing naturally at edges, soft cream-gold sunbeams and rich muted emerald green shadows. Beautiful natural atmospheric depth and realistic detailed botanical photography. Brighter and more uplifting than the dark forest opening, retaining sophisticated forest green, sage and warm cream palette. Central third softly open and dark enough for an elegant cream headline overlay, no large distracting flower in the middle. No product, bottle, person, architecture, text, logo or watermark.",
+      "transparentBackground": false
+    }
+  ]
+}
